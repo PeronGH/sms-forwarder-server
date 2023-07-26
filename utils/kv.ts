@@ -23,3 +23,16 @@ export async function listMessages() {
 
   return messages;
 }
+
+export async function clearMessages() {
+  const deleteAllMessages = kv.atomic();
+  const entries = kv.list({ prefix: [MESSAGES_PREFIX] });
+
+  for await (const { key } of entries) {
+    deleteAllMessages.delete(key);
+  }
+
+  const { ok } = await deleteAllMessages.commit();
+
+  return ok;
+}

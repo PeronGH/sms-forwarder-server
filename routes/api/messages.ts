@@ -1,7 +1,8 @@
 import { Handlers } from "$fresh/server.ts";
 import { RECEIVER_KEY, SENDER_KEY } from "$/utils/constants.ts";
 import { parseMessage } from "$/utils/message_parser.ts";
-import { addMessage, listMessages } from "$/utils/kv.ts";
+import { addMessage, clearMessages } from "$/utils/kv.ts";
+import { getCookies } from "$std/http/cookie.ts";
 
 export const handler: Handlers = {
   async POST(req) {
@@ -19,19 +20,19 @@ export const handler: Handlers = {
     const message = parseMessage(messageText);
     await addMessage(message);
 
-    return Response.json({ ok: true });
+    return Response.json({ ok: true }, { status: 201 });
   },
 
-  async GET(req) {
-    if (req.headers.get("X-Token") ?? "" !== RECEIVER_KEY) {
+  async DELETE(req) {
+    const { receiverKey = "", senderKey = "" } = getCookies(req.headers);
+
+    if (receiverKey !== RECEIVER_KEY || senderKey !== SENDER_KEY) {
       return Response.json(
-        { ok: false, msg: "Invalid token" },
-        { status: 401 },
+        { ok: false, msg: "Invalid keys" },
+        { status: 400 },
       );
     }
 
-    const messages = await listMessages();
-
-    return Response.json({ ok: true, data: messages });
+    return Response.json({ ok: await clearMessages() });
   },
 };

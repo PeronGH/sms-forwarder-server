@@ -13,7 +13,7 @@ export function parseMessage(messageText: string): Message {
   const headers = messageText
     .slice(0, headerEnd)
     .split("\n")
-    .map((line) => line.split(": ", 2) as [string, string])
+    .map((line) => line.split(":", 2) as [string, string])
     .map(([key, value]) => [key.trim().toLowerCase(), value.trim()])
     .filter(([key, value]) => validHeaderKeysSet.has(key) && value)
     .reduce(

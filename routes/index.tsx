@@ -15,7 +15,7 @@ export default async function MessagesViewer(req: Request) {
         <Head>
           <title>SMS Forwarder Server | Login</title>
         </Head>
-        <div className="space-y-4 p-8 max-w-lg mx-auto">
+        <div className="space-y-4 p-4 md:p-8 max-w-lg mx-auto">
           <ReceiverKeyInputCard />
         </div>
       </>
@@ -29,7 +29,7 @@ export default async function MessagesViewer(req: Request) {
       <Head>
         <title>SMS Forwarder Server | Messages</title>
       </Head>
-      <div className="space-y-4 p-8 max-w-lg mx-auto">
+      <div className="space-y-4 p-4 md:p-8 max-w-lg mx-auto">
         {messages.map((message) => <MessageCard message={message} />)}
       </div>
     </>

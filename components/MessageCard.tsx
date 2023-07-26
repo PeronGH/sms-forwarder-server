@@ -24,7 +24,7 @@ const MessageCard: FunctionComponent<MessageCardProps> = ({ message }) => {
           <div className="flex gap-2 items-center mt-3">
             <div className="text-white font-semibold text-base">To:</div>
 
-            <div className="text-lime-100 font-medium text-sm">{to}</div>
+            <div className="text-teal-100 font-medium text-sm">{to}</div>
           </div>
         )}
 
